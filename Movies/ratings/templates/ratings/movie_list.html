@@ -1,27 +1,25 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Movie List</title>
-  </head>
-  <body>
+</head>
+<body>
     <h1>Movie List</h1>
     <ul>
-      {% for movie in movies %}
-      <li>{{ movie.title }} ({{ movie.release_year }})</li>
-      {% endfor %}
+        {% for movie in movies %}
+        <li>{{ movie.title }} ({{ movie.genre }})({{ movie.release_year }})</li>
+        {% endfor %}
     </ul>
 
-    <h2>Rate a Movie</h2>
-    <h2>{{ movie.title }}</h2>
-    <p>Release Year: {{ movie.release_year }}</p>
-    <p>Rating: {{ movie.rating }}</p>
+    <h1>Hello, {{ user.username }}</h1>
 
+    <h2>Rate a Movie</h2>
     <form method="post">
-      {% csrf_token %} 
-      {{ form.as_p }}
-      <button type="submit">Submit Rating</button>
+        {% csrf_token %}
+        {{ Ratingform.as_p }}
+        <button type="submit">Submit Rating</button>
     </form>
-  </body>
+</body>
 </html>
