@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login/Register</title>
+    <style>
+        /* Verstecke das Formular standardmäßig */
+        form {
+            display: none;
+        }
+    </style>
+    <script>
+        // Funktion, die aufgerufen wird, wenn der Login-Button geklickt wird
+        function showLoginForm() {
+            document.getElementById("loginForm").style.display = "block"; // Zeige das Login-Formular
+            document.getElementById("registerForm").style.display = "none"; // Verstecke das Registrierungsformular
+        }
+
+        // Funktion, die aufgerufen wird, wenn der Registrierungs-Button geklickt wird
+        function showRegisterForm() {
+            document.getElementById("registerForm").style.display = "block"; // Zeige das Registrierungsformular
+            document.getElementById("loginForm").style.display = "none"; // Verstecke das Login-Formular
+        }
+    </script>
+</head>
+<body>
+    hallo
+    <h2>Login/Register</h2>
+    <button onclick="showLoginForm()">Login</button> <!-- Button zum Anzeigen des Login-Formulars -->
+    <button onclick="showRegisterForm()">Register</button> <!-- Button zum Anzeigen des Registrierungsformulars -->
+
+    <!-- Login-Formular -->
+    <form id="loginForm" action="/" method="POST"> <!-- Hier die Aktion auf "/" gesetzt -->
+        <label for="email">E-Mail:</label><br>
+        <input type="email" id="email" name="email" required><br><br>
+        <label for="password">Password:</label><br>
+        <input type="password" id="password" name="password" required><br><br>
+        <input type="hidden" name="action" value="login"> <!-- Verstecktes Feld für die Aktion -->
+        <button type="submit">Login</button>
+    </form>
+
+    <!-- Registrierungsformular -->
+    <form id="registerForm" action="/" method="POST"> <!-- Hier die Aktion auf "/" gesetzt -->
+        <label for="username">Username:</label><br>
+        <input type="text" id="username" name="username" required><br><br>
+        <label for="email">E-Mail:</label><br>
+        <input type="email" id="email" name="email" required><br><br>
+        <label for="password">Password:</label><br>
+        <input type="password" id="password" name="password" required><br><br>
+        <input type="hidden" name="action" value="register"> <!-- Verstecktes Feld für die Aktion -->
+        <button type="submit">Register</button>
+    </form>
+</body>
+</html>
