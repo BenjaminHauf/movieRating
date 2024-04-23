@@ -9,7 +9,7 @@ dic_movies = {'Wall-E':4, 'Armageddon':1, 'The Lobster':3, 'No':5, 'Parasite':5,
 import openai
 
 # Make sure to set up your API key
-openai.api_key = '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'
+#openai.api_key = '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'
 
 # USING AI TO GET RESPONSE
 def get_chatgpt_response(user_input, completions:int):

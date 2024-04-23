@@ -7,7 +7,7 @@ app = Flask(__name__)
 
 #--------------------------OPEN AI--------------------------------#
 # Make sure to set up your API key
-openai.api_key = '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'
+#openai.api_key = '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'
 
 # USING AI TO GET RESPONSE
 def get_chatgpt_response(user_input, completions:int):
@@ -70,26 +70,10 @@ def submit():
 
     return "Name not found"  # Return a response in case the movie information is not found
 
-    # # Save the data to a CSV file   -  need to chance this part of the code
-    # with open('./Database/movies.csv', 'r', newline='') as csvfile:
-    #     reader = csv.reader(csvfile)
-    #     for row in reader:
-    #         if name in row[0]:
-    #             name_error = False
-    #             genre = row[1]
-    #             year = row[7]
-    #             studio = row[2]
-    #             audience_score = row[3]
-    #             rotten_tomatoes = row[5]
-    #             # Redirect the user to another website with information about the input
-    #             return redirect(url_for('info', name=name, genre=genre, year=year,studio=studio, audience=audience_score,tomatoes=rotten_tomatoes))       # call the function info(name)
-    #     if name_error:
-    #         return "Name not found"
 
 @app.route('/info/<name>/<director>/<year>/<genre>/<tomatoes>/<text>')
 def info(name, director, year, genre, tomatoes, text):
-    # Pass the name and other information to the second HTML file
-    # You can add more variables here as needed
+
     return render_template('info.html', name=name, director=director, year=year, genre=genre, tomatoes=tomatoes, text=text)  # call the website info.html and give it two variable entries (name, other_info)
 
 if __name__ == '__main__':
