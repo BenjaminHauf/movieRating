@@ -1,15 +1,10 @@
-# KEYS
-# Alpha -   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
-# Bravo -   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
-# Charlie - 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
-# Delta -    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
-
 
 dic_movies = {'Wall-E':4, 'Armageddon':1, 'The Lobster':3, 'No':5, 'Parasite':5,'Mad Max: Fury Road':2,'Roma':4, 'The devil wears Prada':2, 'the Grand Budapest Hotel':5}
 import openai
 
 # Make sure to set up your API key
-#openai.api_key = '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'
+
+openai.api_key = '' # NEED TO PUT A KEY
 
 # USING AI TO GET RESPONSE
 def get_chatgpt_response(user_input, completions:int):

@@ -7,7 +7,8 @@ app = Flask(__name__)
 
 #--------------------------OPEN AI--------------------------------#
 # Make sure to set up your API key
-#openai.api_key = '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'
+
+openai.api_key = '' # NEED TO PUT A KEY
 
 # USING AI TO GET RESPONSE
 def get_chatgpt_response(user_input, completions:int):
