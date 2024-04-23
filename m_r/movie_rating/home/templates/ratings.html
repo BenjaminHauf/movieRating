@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+    
+    <h1>My Ratings</h1>
+    <br><br>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Movie</th>
+                <th>Rating</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for rating in rating_list %}
+            <tr>
+                <td><a href="% url 'rating_view' rating.id %"></a>{{ rating.movie.title }}</td>
+                <td>{{ rating.rating }}</td>
+            </tr>
+            {% endfor %}
+            <center>
+                <br><br>
+                <a href="{% url 'new_rating' %}" class="btn btn-primary">New Rating</a>
+                <a href="{% url 'home' %}" class="btn btn-primary">Back</a>
+            </center>
+        </tbody>
+    </table>
+    
+
+    <Script>
+        <!-- This code snippet reloads the current page. -->
+        // window.location.reload();
+    </Script>
+</body>
+</html>
+
+{% endblock %}

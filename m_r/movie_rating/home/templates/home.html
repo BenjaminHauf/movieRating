@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+    <center>
+    <h1>Hello {{name}}! Check out upcoming events in {{month}} {{year}}</h1>
+    <br><br>
+    {{time}}
+    <br><br>
+    {{cal|safe}}
+
+    <br><br><br><br>
+    <p>Copyright (c) {{year}} by Hobo-Hustlerz</p>
+    </center>
+
+    <Script>
+        <!-- This code snippet reloads the current page. -->
+        // window.location.reload();
+    </Script>
+</body>
+</html>
+
+{% endblock %}
