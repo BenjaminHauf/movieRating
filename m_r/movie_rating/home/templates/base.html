@@ -12,10 +12,10 @@
   </head>
   <body>
 
-    {% include 'navbar.html' %}
+    {% include 'navbar.html' %}   <!-- loading our navbar file -->
     <br>
     <div class="container">
-      {% if messages %}
+      {% if messages %}         
         {% for message in messages %}
           
             {{message}}
@@ -23,7 +23,7 @@
         {% endfor %}
       {% endif %}
     {% block content %}
-
+      <!-- here will be our page -->
     {% endblock %}
     </div>
     <!-- Optional JavaScript; choose one of the two! -->

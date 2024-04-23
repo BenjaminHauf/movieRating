@@ -13,5 +13,6 @@ urlpatterns = [
     path('<int:year>/<str:month>/', views.home),
     path('myratings', views.my_ratings, name="ratings"),
     path('newrating', views.new_rating, name="new_rating"),
+    path('recobot', views.recobot, name="recobot"),
     # path('rating_view/<rating_id>', views.rating_view, name="rating_view"),
 ]

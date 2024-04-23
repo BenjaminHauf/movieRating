@@ -17,6 +17,9 @@ from .forms import RatingForm
 #         'rating': rating
 #     })
 
+def recobot(request):
+    return render(request, 'recoBot.html')
+
 def new_rating(request):
     submitted = False
     if request.method == 'POST':
