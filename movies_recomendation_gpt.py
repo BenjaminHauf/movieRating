@@ -46,3 +46,40 @@ if __name__ == '__main__':
     for i in get_chatgpt_response(text_input,reco_num_gpt, 1):
             print(i)
     #print(get_chatgpt_response(text_input, 1))
+
+
+"""
+You don't necessarily need to run the entire Django project to test a specific Python code snippet or function. You can create a separate script within your Django project directory and utilize Django's ORM (Object-Relational Mapping) to interact with your database and test your code.
+
+Here's a general outline of how you can do it:
+
+    Create a Test Script: Create a new Python script (let's say test_script.py) in your Django project directory or any convenient location.
+
+    Import Necessary Modules: Import Django's settings and models in your test script. This will allow you to interact with your Django project.
+
+    python
+
+import os
+import django
+
+os.environ.setdefault("DJANGO_SETTINGS_MODULE", "your_project.settings")
+django.setup()
+
+from your_app.models import YourModel  # Import your model
+
+Write Your Test Code: Write the code you want to test within your script. This can include querying the database and printing the results.
+
+python
+
+# Example: Query the database and print information
+queryset = YourModel.objects.all()
+for obj in queryset:
+    print(obj.field1, obj.field2)  # Replace field1, field2 with actual field names
+
+Run Your Script: Simply run your script using Python.
+
+bash
+
+python test_script.py
+
+"""
