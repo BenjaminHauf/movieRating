@@ -1,0 +1,71 @@
+{% load ratings_tags %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Movie List</title>
+</head>
+<body>
+    <h1>Hello, {{ user.username }}</h1>
+
+    <a href="{% url 'logout' %}">Logout</a>
+
+    <h2>Movie List</h2>
+    <ul>
+        {% for movie in movies %}
+        <li>
+            {{ movie.title }} ({{ movie.genre }}) ({{ movie.release_year }}) 
+            {% if movie.id in user_ratings %} 
+                Rated: {{ user_ratings|get_key:movie.id }} stars 
+                <form method="post" action="{% url 'rate_movie' movie.id %}">
+                    {% csrf_token %}
+                    <input type="hidden" name="rating_id" value="{{ user_ratings|get_key:movie.id }}">
+                    <label for="stars">Rate Again:</label>
+                    <select name="stars" id="stars">
+                        <option value="1">1 Star</option>
+                        <option value="2">2 Stars</option>
+                        <option value="3">3 Stars</option>
+                        <option value="4">4 Stars</option>
+                        <option value="5">5 Stars</option>
+                    </select>
+                    <button type="submit">Update Rating</button>
+                </form>
+            {% else %}
+                <form method="post" action="{% url 'rate_movie' movie.id %}">
+                    {% csrf_token %}
+                    <label for="stars">Rate:</label>
+                    <select name="stars" id="stars">
+                        <option value="1">1 Star</option>
+                        <option value="2">2 Stars</option>
+                        <option value="3">3 Stars</option>
+                        <option value="4">4 Stars</option>
+                        <option value="5">5 Stars</option>
+                    </select>
+                    <button type="submit">Submit Rating</button>
+                </form>
+            {% endif %}
+        </li>
+        {% endfor %}
+    </ul>
+
+    <h2>Recommended Movies</h2>
+    <!-- How the chat gpt recomendation is now a string and not a list, just need to print the string, do not need the for loop -->
+    <tbody>
+        <p>{{ recommendations | safe }}</p>  <!-- | safe is to the html undestand the <br> like a new line, otherwise it will print the <br> in the text-->
+    </tbody>
+    
+    <h2>Add Movie</h2>
+    <form method="post">
+        {% csrf_token %}
+        <label for="title">Title:</label>
+        <input type="text" name="title" id="title" />
+        <label for="genre">Genre:</label>
+        <input type="text" name="genre" id="genre" />
+        <label for="release_year">Release Year:</label>
+        <input type="number" name="release_year" id="release_year" />
+        <button type="submit">Add Movie</button>
+    </form>
+</body>
+</html>
