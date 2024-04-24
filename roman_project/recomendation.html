@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+    
+    <h1>Recomendation</h1>
+    <br><br>
+    <tbody>
+        <P>Chat GPT recomendations:</P>
+        <p>{{ text_gpt | safe }}</p>  <!-- Display text_test here -->
+    </tbody>
+
+
+    <Script>
+        <!-- This code snippet reloads the current page. -->
+        // window.location.reload();
+    </Script>
+</body>
+</html>
+
+{% endblock %}
