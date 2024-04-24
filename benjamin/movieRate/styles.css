@@ -1,0 +1,98 @@
+*{
+    box-sizing: border-box;
+    padding: 0;
+    margin: 0;
+}
+
+html{
+    font-size: 62.5%;
+}
+
+#navbar{
+position: fixed;
+top: 0;
+width: 100%;
+background-color: rgb(1, 1, 55);
+z-index: 1;
+
+}
+.wrapper{
+    width: 80%;
+    display: flex;
+    justify-content: space-between;
+    margin: 0 auto 0 auto;
+
+}
+#navbar ul{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+}
+#navbar ul li{
+    list-style: none;
+    padding: 28px 20px;
+}
+li a{
+    text-decoration: none;
+    color: white;
+    font-size: 2.6rem;
+    font-weight: 500;
+    font-family: 'Barlow', sans-serif;
+    letter-spacing: 2px;
+}
+ li a:focus-within, li a:hover{
+    font-weight: 600;
+    padding: 28px 0px;
+}
+.profil{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 20px;
+}
+.user-name{
+    color: white;
+    font-size: 1.5rem;
+    padding-right: 20px;
+}
+
+.logged{
+    padding: 5px 10px 0 0;
+    height: 80%;
+    min-width: 45px;
+    margin-top: 22px;
+    mask-repeat: no-repeat;
+    mask-size: contain;
+}
+.out{
+    background-color:white;
+    mask-image: url(right-to-bracket-solid.svg);
+    
+}
+.out:hover{
+    background-color:green;
+}
+.in{
+    background-color:white;
+    mask-image: url(right-from-bracket-solid.svg);
+    
+}
+.in:hover{
+    background-color:red;
+}
+
+@media screen and (max-width: 1020px){
+    .wrapper{
+        width: 90%;
+    }
+}
+@media screen and (max-width: 880px){
+    #navbar ul li{
+        list-style: none;
+        padding: 28px 16px;
+    }
+    li a{     
+        font-size: 1.8rem;
+    }
+}
