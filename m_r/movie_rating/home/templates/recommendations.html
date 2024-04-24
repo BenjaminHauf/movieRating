@@ -3,25 +3,25 @@
 {% block content %}                 <!-- open block -->
 
     
-    <h1>My Ratings</h1>
+    <h1>My Recommendations</h1>
     <br><br>
     <table class="table">
         <thead>
             <tr>
                 <th>Movie</th>
-                <th>Rating</th>
+                <th>Recommendation</th>
             </tr>
         </thead>
         <tbody>
-            {% for rating in rating_list %}
+            {% for recommendation in reco_list %}
             <tr>
-                <td><a href="% url 'rating_view' rating.id %">{{ rating.movie.title }}</a></td>
-                <td>{{ rating.rating }}</td>
+                <td>{{ recommendation.movie }}</td>
+                <td>{{ recommendation.reco }}</td>
             </tr>
             {% endfor %}
             <center>
                 <br><br>
-                <a href="{% url 'new_rating' %}" class="btn btn-primary">New Rating</a>
+                <a href="{% url 'recobot' %}" class="btn btn-primary">Get New</a>
                 <a href="{% url 'home' %}" class="btn btn-primary">Back</a>
             </center>
         </tbody>

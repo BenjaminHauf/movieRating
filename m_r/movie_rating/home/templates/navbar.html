@@ -16,9 +16,9 @@
             </a>
             <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
               <li><a class="dropdown-item" href="{% url 'ratings' %}">My Ratings</a></li> <!-- this is the link to the ratings page -->
-              <li><a class="dropdown-item" href="#">My Recommendations</a></li>   <!-- this is the link to the recommendations page -->
+              <li><a class="dropdown-item" href="{% url 'recommendations' %}">My Recommendations</a></li>   <!-- this is the link to the recommendations page -->
               <!-- <li><hr class="dropdown-divider"></li> -->             <!-- this is a divider (REMOVED) -->
-              <li><a class="dropdown-item" href="#">My Watchlist</a></li>   <!-- this is the link to the watchlist page -->
+              <li><a class="dropdown-item" href="{% url 'watchlist' %}">My Watchlist</a></li>   <!-- this is the link to the watchlist page -->
             </ul>
           <!-- </li>
           <li class="nav-item">

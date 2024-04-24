@@ -3,6 +3,20 @@ from django.forms import ModelForm
 from .models import User, Watchlist, Ratings, Recommendations
 
 
+
+class WatchlistForm(ModelForm):
+    class Meta:
+        model = Watchlist
+        fields = ['movie', 'user']
+        labels = {
+            'movie': '',
+            'user': '',
+        }
+        widgets = {
+            'movie': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Movie Name'}),
+            'user': forms.SelectMultiple(attrs={'class': 'form-control', 'placeholder': 'User'}),
+        }
+    
 class RatingForm(ModelForm):
     class Meta:
         model = Ratings

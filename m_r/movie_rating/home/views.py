@@ -5,17 +5,40 @@ from calendar import HTMLCalendar
 from django.http import HttpResponseRedirect
 from .models import User, Watchlist, Ratings, Recommendations
 from .forms import RatingForm
+from .forms import WatchlistForm
 # Create your views here.
 
 
 
 
 
-# def rating_view(request, rating_id):
-#     rating = Ratings.objects.get(pk=rating_id)
-#     return render(request, 'rating_view.html', {
-#         'rating': rating
-#     })
+def rating_view(request, rating_id):
+    rating = Ratings.objects.get(pk=rating_id)
+    return render(request, 'rating_view.html', {
+        'rating_view': rating
+    })
+
+def watchlist_entry(request):
+    submitted = False
+    if request.method == 'POST':  # the method is defined in the html file
+        form = WatchlistForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return HttpResponseRedirect('/watchlist_entry?submitted=True')
+    else:
+        form = WatchlistForm()
+        if 'submitted' in request.GET:
+            submitted = True
+
+def recommendations(request):
+    reco_list = Recommendations.objects.all()
+    return render(request, 'recommendations.html', {
+        'reco_list': reco_list,})
+
+def watchlist(request):
+    watch_list = Watchlist.objects.all()
+    return render(request, 'watchlist.html', {
+        'watch_list': watch_list,})
 
 def recobot(request):
     return render(request, 'recoBot.html')
