@@ -36,5 +36,6 @@ def generate_recommendations(user, reco_num_gpt):
     This are the movies that I liked: {movies_str}
     """
     response = get_chatgpt_response(text_input, reco_num_gpt, 1)
-    return response
+    response_gpt = response[0].split('\n')
+    return response_gpt
 

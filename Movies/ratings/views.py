@@ -31,12 +31,14 @@ def movie_list(request):
      # Recommendation logic
     reco_num_gpt = 3  # Number of recommended movies
     recommendations = generate_recommendations(request.user, reco_num_gpt)
+    
+
 
     context = {
         'movies': movies,
         'user_ratings': user_ratings,
         'user': request.user,
-        'recommendations': recommendations
+        'recommendations': recommendations,
     }
 
     return render(request, 'ratings/movie_list.html', context)
