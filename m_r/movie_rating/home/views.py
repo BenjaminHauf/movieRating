@@ -7,14 +7,15 @@ from .models import User, Watchlist, Ratings, Recommendations
 from .forms import RatingForm
 from .forms import WatchlistForm
 import openai
-from django.contrib.auth import get_user
+from django.contrib.auth import get_user_model
 # Create your views here.
 
-def rating_view(request, rating_id):
-    rating = Ratings.objects.get(pk=rating_id)
-    return render(request, 'rating_view.html', {
-        'rating_view': rating
-    })
+
+# def rating_view(request, rating_id):
+#     rating = Ratings.objects.get(pk=rating_id)
+#     return render(request, 'ratingView.html', {
+#         'rating_view': rating
+#     })
 
 def new_rating(request):
     submitted = False
@@ -23,16 +24,13 @@ def new_rating(request):
         if form.is_valid():
             rating = form.save(commit=False)  # Don't save to database yet
             rating.save()  # Save the rating to generate a primary key
-            user = get_user(request)  # Ensure that request.user is fully resolved
-            rating.user.add(user)  # Add the current user to the set of users associated with the rating
+            # rating.user.add(request.user)  # Add the current user to the set of users associated with the rating
             return HttpResponseRedirect('/newrating?submitted=True')
     else:
         form = RatingForm()
         if 'submitted' in request.GET:
             submitted = True
-    return render(request, 'newRating.html', {
-        'form': form, 'submitted': submitted
-    })
+    return render(request, 'newRating.html', {'form': form, 'submitted': submitted})
 
 def watchlist_entry(request):
     submitted = False
@@ -66,6 +64,8 @@ def watchlist_entry(request):
 
 #     # Render the template with the movie and description
 #     return render(request, 'watchlist_entry_2.html', {'movie': movie, 'description': desription})
+
+
 
 def recommendations(request):
     reco_list = Recommendations.objects.all()
@@ -131,11 +131,11 @@ def get_chatgpt_response(user_input,reco_num_gpt, completions:int):
     response = openai.Completion.create(
         engine="gpt-3.5-turbo-instruct",    # choosing model of openai's AI
         prompt=user_input,                  # choosing what to use for prompting
-        max_tokens=80*reco_num_gpt,                     # limit the maximum response tokens - taking 50 word for recomended movie
-        temperature=0.5,                    # choosing temperature (more random/creative here)
+        max_tokens=50*reco_num_gpt,                     # limit the maximum response tokens - taking 50 word for recomended movie
+        temperature=1,                    # choosing temperature (more random/creative here)
         n=completions,                      # modifiable completion number
         echo=False,                         # Return the user's input in the response if set to True
-        presence_penalty=0.5,               # higher value = more likely to introduce new topics
+        presence_penalty=1,               # higher value = more likely to introduce new topics
         frequency_penalty=0.1               # higher value = more likely to repeat information
     )
     choices = []
@@ -151,23 +151,47 @@ def select_movies_liked(list_movies_user,list_user_rating,movies_num):
         list_movies_liked += [list_movies_user[i] for i in indices_of_4]  
      return list_movies_liked
 
+from .models import Recommendations
+
+def get_already_recommended_movies():
+    """Retrieve the list of movies that have already been recommended."""
+    recommended_movies = Recommendations.objects.values_list('movie', flat=True)
+    return recommended_movies
+
 def recomendation(list_movies_user, list_user_rating):
     movies_num = 10             # number of movies in my list of liked movies, in this case, the top 10 (just take note 4 and 5). If movies rating 5 is bigger that 10 it just collect the rating 5, otherwise also take the movies rating 4
-    reco_num_gpt = 1            # number of recomended movies fromchat GPT
+    reco_num_gpt = 1            # number of recommended movies from ChatGPT
     
-    list_movies_liked = select_movies_liked(list_movies_user,list_user_rating,movies_num)
-    text_input = f"""
-    Recommend {reco_num_gpt} new movie that I should watch based on the movies that I liked or loved?
-    And also explain a little the reason, why should I like the recommended movies.
-    This are the movies that I liked: {list_movies_liked}
-    And this are all the movies that I already watched, so you do not give a recommended movie that I watched: {list_movies_user}
-    just give the answer in this way: Name of the recomended movies (but do not write a number in front of the title) - Then explain in about 120 words what similarities it has to the rated movies (genre, director, actors, story, etc.) and give a summary of it.
-    """
-    text_gpt = ''
+    list_movies_liked = select_movies_liked(list_movies_user, list_user_rating, movies_num)
+    already_recommended_movies = get_already_recommended_movies()
+    
+    # Exclude already recommended movies from the input to ChatGPT
+    input_movies = [movie for movie in list_movies_liked if movie not in already_recommended_movies]
+    
     try:
-        for i in get_chatgpt_response(text_input, reco_num_gpt, 1):
-            text_gpt += i
+        # Construct the input text for GPT following the specified structure
+        input_text = f"Recommend one new movie based on the movies I liked: {', '.join(input_movies)}. Do not recommend movies I've already watched or previously recommended. Answer in the format 'Title - Recommendation (about 120 words)'."
+        
+        # Getting the response from ChatGPT
+        response = get_chatgpt_response(input_text, reco_num_gpt, 1)
+        
+        # Extracting movie name and recommendation from the response
+        for i in range(len(response)):
+            recommendation_text = response[i]
+            # Checking if the recommendation text contains a "-"
+            if "-" in recommendation_text:
+                # Splitting the recommendation text into movie and recommendation
+                movie_name, reco = recommendation_text.split(' - ')
+                
+                # Creating a new Recommendations instance and saving it
+                recommendation_instance = Recommendations.objects.create(movie=movie_name, reco=reco)
+                recommendation_instance.save()
+                
+                # Returning the recommendation text (if needed)
+                return recommendation_text
+            else:
+                # If "-" is not found, make another generation automatically
+                return recomendation(list_movies_user, list_user_rating)
     except Exception as e:
         text_gpt = 'Failed to communicate with Chat GPT: \n{}'.format(str(e))
-
-    return text_gpt
+        return text_gpt
