@@ -9,6 +9,10 @@
         <div class="alert alert-success" role="alert">
             Rating submitted successfully!
         </div>
+        <center>
+            <br>
+            <a href="{% url 'ratings' %}" class="btn btn-primary">Back</a>
+        </center>
     {% else %}
         <div class="alert alert-warning" role="alert">
             Please enter a rating.
@@ -19,7 +23,11 @@
     <form method="POST">
         {% csrf_token %}
         {{ form.as_p }}
-        <button type="submit" class="btn btn-primary">Submit</button>
+        <center>
+            
+            <a href="{% url 'ratings' %}" class="btn btn-primary">Back</a>
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </center>
     </form>
     <br><br>
         </tbody>

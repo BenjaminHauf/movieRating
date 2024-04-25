@@ -1,24 +1,24 @@
 
 dic_movies = {'Wall-E':4, 'Armageddon':1, 'The Lobster':3, 'No':5, 'Parasite':5,'Mad Max: Fury Road':2,'Roma':4, 'The devil wears Prada':2, 'the Grand Budapest Hotel':5}
-import openai
+from openai import OpenAI
+
+client = OpenAI(api_key='')
 
 # Make sure to set up your API key
 
-openai.api_key = '' # NEED TO PUT A KEY
+ # NEED TO PUT A KEY
 
 # USING AI TO GET RESPONSE
 def get_chatgpt_response(user_input, completions:int):
-    response = openai.Completion.create(
-        engine="gpt-3.5-turbo-instruct",    # choosing model of openai's AI
-        prompt=user_input,                  # choosing what to use for prompting
-        max_tokens=300,                     # limit the maximum response tokens
-        temperature=1.0,                    # choosing temperature (more random/creative here)
-        n=completions,                      # modifiable completion number
-        best_of=3,                          # Generates n * best_of completions and returns the best n.
-        echo=False,                         # Return the user's input in the response if set to True
-        presence_penalty=0.5,               # higher value = more likely to introduce new topics
-        frequency_penalty=0.5               # higher value = more likely to repeat information
-    )
+    response = client.completions.create(engine="gpt-3.5-turbo-instruct",    # choosing model of openai's AI
+    prompt=user_input,                  # choosing what to use for prompting
+    max_tokens=300,                     # limit the maximum response tokens
+    temperature=1.0,                    # choosing temperature (more random/creative here)
+    n=completions,                      # modifiable completion number
+    best_of=3,                          # Generates n * best_of completions and returns the best n.
+    echo=False,                         # Return the user's input in the response if set to True
+    presence_penalty=0.5,               # higher value = more likely to introduce new topics
+    frequency_penalty=0.5               # higher value = more likely to repeat information)
     choices = []
     for i in range(completions):
         choices.append(response.choices[i].text.strip())

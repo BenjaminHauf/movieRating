@@ -7,31 +7,31 @@ from .models import User, Watchlist, Ratings, Recommendations
 class WatchlistForm(ModelForm):
     class Meta:
         model = Watchlist
-        fields = ['movie', 'user']
+        fields = ['movie', 'reco', 'desription']
         labels = {
             'movie': '',
-            'user': '',
+            'reco': '',
+            'desription': '',
         }
         widgets = {
             'movie': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Movie Name'}),
-            'user': forms.SelectMultiple(attrs={'class': 'form-control', 'placeholder': 'User'}),
+            'reco': forms.Textarea(attrs={'class': 'form-control', 'placeholder': 'Recommendation'}),
+            'desription': forms.Textarea(attrs={'class': 'form-control', 'placeholder': 'Description'}),
         }
+
     
 class RatingForm(ModelForm):
     class Meta:
         model = Ratings
-        fields = ['movie', 'rating', 'review', 'picture', 'user']
+        fields = ['movie', 'rating', 'review']
         labels = {
             'movie': '',
             'rating': '',
             'review': '',
-            'picture': '',
-            'user': '',
+         
         }
         widgets = {
             'movie': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Movie Name'}),
-            'rating': forms.NumberInput(attrs={'class': 'form-control', 'placeholder': 'Rating'}),
+            'rating': forms.NumberInput(attrs={'class': 'form-control', 'placeholder': 'Rating', 'min': 1, 'max': 5}),
             'review': forms.Textarea(attrs={'class': 'form-control', 'placeholder': 'Review'}),
-            'picture': forms.URLInput(attrs={'class': 'form-control', 'placeholder': 'Picture URL'}),
-            'user': forms.SelectMultiple(attrs={'class': 'form-control', 'placeholder': 'User'}),
         }

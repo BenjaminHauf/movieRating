@@ -1,28 +1,28 @@
 # https://excalidraw.com/#room=2307c59c384fd1f6acab,EUbwlMw3WMLAxozWJZ2LYg
 from flask import Flask, render_template, request, redirect, url_for
 import csv
-import openai
+from openai import OpenAI
+
+client = OpenAI(api_key='')
 
 app = Flask(__name__)
 
 #--------------------------OPEN AI--------------------------------#
 # Make sure to set up your API key
 
-openai.api_key = '' # NEED TO PUT A KEY
+ # NEED TO PUT A KEY
 
 # USING AI TO GET RESPONSE
 def get_chatgpt_response(user_input, completions:int):
-    response = openai.Completion.create(
-        engine="gpt-3.5-turbo-instruct",    # choosing model of openai's AI
-        prompt=user_input,                  # choosing what to use for prompting
-        max_tokens=150,                     # limit the maximum response tokens
-        temperature=1.0,                    # choosing temperature (more random/creative here)
-        n=completions,                      # modifiable completion number
-        best_of=3,                          # Generates n * best_of completions and returns the best n.
-        echo=False,                         # Return the user's input in the response if set to True
-        presence_penalty=0.5,               # higher value = more likely to introduce new topics
-        frequency_penalty=0.5               # higher value = more likely to repeat information
-    )
+    response = client.completions.create(engine="gpt-3.5-turbo-instruct",    # choosing model of openai's AI
+    prompt=user_input,                  # choosing what to use for prompting
+    max_tokens=150,                     # limit the maximum response tokens
+    temperature=1.0,                    # choosing temperature (more random/creative here)
+    n=completions,                      # modifiable completion number
+    best_of=3,                          # Generates n * best_of completions and returns the best n.
+    echo=False,                         # Return the user's input in the response if set to True
+    presence_penalty=0.5,               # higher value = more likely to introduce new topics
+    frequency_penalty=0.5               # higher value = more likely to repeat information)
     choices = []
     for i in range(completions):
         choices.append(response.choices[i].text.strip())
@@ -63,7 +63,7 @@ def index():
 def submit():
     name = request.form['name']
     name_error = True
-    
+
     info_movie, text = info_about_movie(name)
     if info_movie[1] == 1:
         name_error = False

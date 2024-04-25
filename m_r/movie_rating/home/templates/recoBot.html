@@ -4,22 +4,28 @@
 
     
     <h1>The Reco-Bot</h1>
-    <br><br>
+    
    
             <center>
-                <br><br>
-                <a href="{% url 'new_rating' %}" class="btn btn-primary">New Rating</a>
-                <a href="{% url 'home' %}" class="btn btn-primary">Back</a>
-            </center>
-        </tbody>
-    </table>
-    
+                <br>
+           
+    <tbody>
+        
+        <p>{{ text_gpt | safe }}</p>  <!-- Display text_test here -->
+    </tbody>
 
+    <center>
+        <br>
+        <a href="{% url 'recobot' %}" class="btn btn-primary">Recommend another Movie</a>
+        <a href="{% url 'watchlist_entry' %}" class="btn btn-primary">Add movie to Watchlist</a>
+        <a href="{% url 'home' %}" class="btn btn-primary">Back</a>
+    </center>
     <Script>
         <!-- This code snippet reloads the current page. -->
         // window.location.reload();
     </Script>
 </body>
 </html>
+
 
 {% endblock %}          <!-- close block -->

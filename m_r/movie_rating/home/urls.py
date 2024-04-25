@@ -1,5 +1,8 @@
-from django.urls import path
+from django.urls import path, include
 from . import views
+from members import views as members_views
+
+from django.contrib import admin
 
 # path Converters
 # int, str,
@@ -9,7 +12,8 @@ from . import views
 # custom converters
 
 urlpatterns = [
-    path('', views.home, name="home"),
+    path('', members_views.login_user, name="login"),
+    path('home', views.home, name="home"),
     path('<int:year>/<str:month>/', views.home),
     path('myratings', views.my_ratings, name="ratings"),
     path('newrating', views.new_rating, name="new_rating"),
@@ -18,4 +22,7 @@ urlpatterns = [
     path('recobot', views.recobot, name="recobot"),
     path('watchlist_entry', views.watchlist_entry, name="watchlist_entry"),
     path('rating_view', views.rating_view, name="rating_view"),
+    # path('watchlist_entry_2', views.watchlist_entry_2, name="watchlist_entry_2"),
+    # path('admin/', admin.site.urls),
+    # path('accounts/', include('accounts.urls')),
 ]
