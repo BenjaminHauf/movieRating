@@ -23,6 +23,5 @@ urlpatterns = [
     path('watchlist_entry', views.watchlist_entry, name="watchlist_entry"),
     path('rating_view', views.rating_view, name="rating_view"),
     # path('watchlist_entry_2', views.watchlist_entry_2, name="watchlist_entry_2"),
-    # path('admin/', admin.site.urls),
-    # path('accounts/', include('accounts.urls')),
+    
 ]

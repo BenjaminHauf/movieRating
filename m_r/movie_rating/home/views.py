@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 import calendar
 from datetime import datetime
 from calendar import HTMLCalendar
@@ -7,6 +7,7 @@ from .models import User, Watchlist, Ratings, Recommendations
 from .forms import RatingForm
 from .forms import WatchlistForm
 import openai
+from django.contrib.auth import get_user
 # Create your views here.
 
 def rating_view(request, rating_id):
@@ -20,7 +21,10 @@ def new_rating(request):
     if request.method == 'POST':
         form = RatingForm(request.POST)
         if form.is_valid():
-            form.save()
+            rating = form.save(commit=False)  # Don't save to database yet
+            rating.save()  # Save the rating to generate a primary key
+            user = get_user(request)  # Ensure that request.user is fully resolved
+            rating.user.add(user)  # Add the current user to the set of users associated with the rating
             return HttpResponseRedirect('/newrating?submitted=True')
     else:
         form = RatingForm()
