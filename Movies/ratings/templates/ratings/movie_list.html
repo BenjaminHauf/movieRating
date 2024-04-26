@@ -6,13 +6,118 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Movie List</title>
+    <style>
+        body {
+            font-family: sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        h1 {
+            background-color: #333;
+            color: #fff;
+            margin: 0;
+            padding: 10px;
+            text-align: right;
+            font-size: 20px;
+        }
+
+        h2 {
+            margin: 20px 0 10px;
+        }
+
+        ul {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+        }
+
+        li {
+            border: 0px solid #333;
+            margin: 10px 0;
+            padding: 10px;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+            margin-top: 10px;
+        }
+
+        label {
+            margin-bottom: 5px;
+        }
+
+        input, select {
+            margin-bottom: 10px;
+            padding: 5px;
+        }
+
+        button {
+            background-color: #333;
+            border: none;
+            color: #fff;
+            cursor: pointer;
+            padding: 10px;
+        }
+
+        button:hover {
+            background-color: #555;
+        }
+
+        .user {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: #333;
+            color: #fff;
+            padding: 10px;
+            padding-left: 20px;
+            padding-right: 20px;
+        }
+
+        a {
+            color: #fff;
+            text-decoration: none;
+        }
+
+        .movie_list {
+            margin-top: 20px;
+            padding-top: 20px;
+            padding-bottom: 20px;
+            padding-left: 80px;
+            padding-right: 80px;
+        }
+        .recommend {
+            margin-top: 20px;
+            padding-top: 20px;
+            padding-bottom: 20px;
+            padding-left: 80px;
+            padding-right: 80px;
+            background-color: #333;
+            color: #fff;
+        }
+        .add_movie {
+            margin-top: 20px;
+            cursor: pointer;
+            text-align: center;
+        }
+        .add-movie-form {
+            padding: 20px;
+            padding-left: 80px;
+            padding-right: 80px;
+            display: none; 
+        }
+    </style>
 </head>
 <body>
-    <h1>Hello, {{ user.username }}</h1>
-
-    <a href="{% url 'logout' %}">Logout</a>
-
-    <h2>Movie List</h2>
+    <div class="user">
+        <h1>Hello, {{ user.username }}</h1>
+        <a href="{% url 'logout' %}">Logout</a>
+    </div>
+    
+    <div class="movie_list">
+    <h2>Your Movie List</h2>
     <ul>
         {% for movie in movies %}
         <li>
@@ -49,24 +154,50 @@
         </li>
         {% endfor %}
     </ul>
+    </div>
 
+    <button class="add-movie-button">Add Movie</button>
+
+          <div class="add-movie-form" id="add-movie-form">
+          <form method="post">
+            {% csrf_token %}
+            <label for="title">Title:</label>
+            <input type="text" name="title" id="title" />
+            <label for="genre">Genre:</label>
+            <input type="text" name="genre" id="genre" />
+            <label for="release_year">Release Year:</label>
+            <input type="number" name="release_year" id="release_year" />
+            <button type="submit">Add Movie</button>
+          </form>
+         </div>
+
+         <script>
+            document.addEventListener("DOMContentLoaded", function() {
+                // Get reference to the "Add Movie" button and the form
+                var addMovieButton = document.querySelector(".add-movie-button");
+                var addMovieForm = document.getElementById("add-movie-form");
+    
+                // Event listener for clicks on the "Add Movie" button
+                addMovieButton.addEventListener("click", function() {
+                    // Toggle the visibility of the form
+                    if (addMovieForm.style.display === "none") {
+                        addMovieForm.style.display = "block";
+                    } else {
+                        addMovieForm.style.display = "none";
+                    }
+                });
+            });
+        </script>
+
+    <div class="recommend">
     <h2>Recommended Movies</h2>
     <ul>
         {% for recommendation in recommendations %}
         <li>{{ recommendation }}</li>
         {% endfor %}
     </ul>
+    </div>
+
     
-    <h2>Add Movie</h2>
-    <form method="post">
-        {% csrf_token %}
-        <label for="title">Title:</label>
-        <input type="text" name="title" id="title" />
-        <label for="genre">Genre:</label>
-        <input type="text" name="genre" id="genre" />
-        <label for="release_year">Release Year:</label>
-        <input type="number" name="release_year" id="release_year" />
-        <button type="submit">Add Movie</button>
-    </form>
 </body>
 </html>
