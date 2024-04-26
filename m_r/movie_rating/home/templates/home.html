@@ -3,16 +3,17 @@
 
 {% block content %}                 <!-- open block -->
 
+
     <center>
     <br><br>
-    <h1>Hello {{name}}! Check out upcoming events in {{month}} {{year}}</h1>
+    <h1>Hi {{name}}! <br> It's {{time}}... <br>... time to watch a movie!</h1>
     <br><br>
-    {{time}}
-    <br><br>
+    
+    <!-- <br><br>
     {{cal|safe}}
 
     <br><br><br><br>
-    <p>Copyright (c) {{year}} by Hobo-Hustlerz</p>
+    <p>Copyright (c) {{year}} by Hobo-Hustlerz</p> -->
     </center>
 
     <Script>
@@ -20,6 +21,6 @@
         // window.location.reload();
     </Script>
 </body>
-</html>
+
 
 {% endblock %}              <!-- close block -->

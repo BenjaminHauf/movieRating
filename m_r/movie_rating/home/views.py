@@ -147,7 +147,7 @@ def get_chatgpt_response(user_input,reco_num_gpt, completions:int):
     response = openai.Completion.create(
         engine="gpt-3.5-turbo-instruct",    # choosing model of openai's AI
         prompt=user_input,                  # choosing what to use for prompting
-        max_tokens=50*reco_num_gpt,                     # limit the maximum response tokens - taking 50 word for recomended movie
+        max_tokens=100*reco_num_gpt,                     # limit the maximum response tokens - taking 50 word for recomended movie
         temperature=1,                    # choosing temperature (more random/creative here)
         n=completions,                      # modifiable completion number
         echo=False,                         # Return the user's input in the response if set to True
@@ -186,7 +186,7 @@ def recomendation(list_movies_user, list_user_rating):
     
     try:
         # Construct the input text for GPT following the specified structure
-        input_text = f"Recommend one new movie based on the movies I liked: {', '.join(input_movies)}. Do not recommend movies I've already watched or previously recommended. Answer in the format 'Title - Recommendation (about 120 words)'."
+        input_text = f"Recommend one new movie based on the movies I liked: {list_movies_liked}. Do not recommend movies I've already watched: {list_movies_user} or that are already recommended {already_recommended_movies}. Answer in the format 'Title - Recommendation (about 120 words)'."
         
         # Getting the response from ChatGPT
         response = get_chatgpt_response(input_text, reco_num_gpt, 1)
