@@ -27,7 +27,7 @@ class Ratings(models.Model):
     rating = models.IntegerField()
     review = models.TextField(blank=True, null=True)
     picture = models.URLField(blank=True, null=True)
-    user = models.ManyToManyField('User', blank=True)
+    user = models.ManyToManyField(User, blank=True)
 
     def __str__(self):
         return self.movie

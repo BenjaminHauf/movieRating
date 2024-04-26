@@ -10,13 +10,15 @@
             <tr>
                 <th>Movie</th>
                 <th>Rating</th>
+                <th>Description</th>
             </tr>
         </thead>
         <tbody>
             {% for rating in rating_list %}
             <tr>
-                <td><a href="% url 'rating_view' rating.id %">{{ rating.movie.title }}</a></td>
+                <td>{{ rating.movie.title }}</td>
                 <td>{{ rating.rating }}</td>
+                <td>{{ rating.review }}</td>
             </tr>
             {% endfor %}
             <center>
