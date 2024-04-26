@@ -15,13 +15,14 @@
     {% include 'navbar.html' %}   <!-- loading our navbar file -->
     <br>
     <div class="container">
-      {% if messages %}         
+      <!-- {% if messages %}         
         {% for message in messages %}
           
             {{message}}
           
         {% endfor %}
-      {% endif %}
+      {% endif %} -->
+
     {% block content %}
       <!-- here will be our page -->
     {% endblock %}

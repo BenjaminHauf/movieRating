@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 import calendar
-from datetime import datetime
+from datetime import datetime, timedelta, timezone
 from calendar import HTMLCalendar
 from django.http import HttpResponseRedirect
 from .models import User, Watchlist, Ratings, Recommendations
@@ -8,6 +8,8 @@ from .forms import RatingForm
 from .forms import WatchlistForm
 import openai
 from django.contrib.auth import get_user_model
+
+
 # Create your views here.
 
 
@@ -82,9 +84,14 @@ def my_ratings(request):
     return render(request, 'ratings.html', {
         'rating_list': rating_list,})
 
+
+    
+
 def home(request, year=datetime.now().year, month=datetime.now().strftime('%B')):
-    name='Django'
+    name=''
     month = month.capitalize()
+    if request.user.is_authenticated:
+        name = request.user.username.capitalize()
 
     # convert month from string to integer
 
@@ -99,7 +106,16 @@ def home(request, year=datetime.now().year, month=datetime.now().strftime('%B'))
 
     now = datetime.now()
     year = now.year
-    time = now.strftime('%I:%M:%S')
+    # Get the current UTC time
+    utc_now = datetime.utcnow()
+    
+    # Calculate the time difference for Berlin time (UTC+2)
+    berlin_offset = timedelta(hours=2)
+    
+    # Add the offset to the UTC time to get the Berlin time
+    berlin_now = utc_now + berlin_offset
+    
+    time = berlin_now.strftime('%I:%M:%S')
 
     return render(request, 'home.html', {
         'name': name,

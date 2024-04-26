@@ -1,0 +1,8 @@
+.container {
+    /* Set the background image */
+    background-image: url('path/to/your/image.jpg'); /* Replace 'path/to/your/image.jpg' with the actual path to your image */
+    
+    /* Set background size and positioning */
+    background-size: cover; /* Cover the entire div */
+    background-position: center; /* Center the background image */
+}
