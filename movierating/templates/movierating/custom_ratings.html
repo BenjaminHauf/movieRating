@@ -1,0 +1,32 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Ratings</title>
+</head>
+<body>
+   <div>custom_ratings</div>
+    <h1>User Ratings</h1>
+    <!-- Suchformular -->
+     <form action="{% url 'search_movies' %}" method="GET">
+        <label for="search">Search Movies:</label>
+        <input type="text" id="search" name="q">
+        <button type="submit">Search</button>
+    </form> 
+    
+    <ul style="list-style-type: none; padding: 0;">
+        {% for rating in user_ratings %}
+        <li style="margin-bottom: 20px; border: 1px solid #ccc; padding: 10px;">
+            <strong>Title:</strong> {{ rating.movieID.title }} <br>
+            <strong>Text:</strong> {{ rating.text }} <br>
+            <strong>Rating:</strong> {{ rating.rating }} <br>
+            <strong>Movie:</strong> {{ rating.movieID.title }}
+        </li>
+        {% endfor %}
+    </ul>
+    <form action="{% url 'recommend_movies' %}" method="POST">
+        {% csrf_token %}
+        <button type="submit">Filmempfehlungen</button>
+    </form>
+</body>
+</html>
