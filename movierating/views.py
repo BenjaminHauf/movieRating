@@ -19,7 +19,7 @@ def convert_to_datetime(date_string):
 
     
 def chatgptquester(statement):
-    api_key = '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'
+    api_key = ''
     client = OpenAI(api_key=api_key)
 
     response = client.chat.completions.create(
