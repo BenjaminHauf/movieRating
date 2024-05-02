@@ -1,13 +1,13 @@
-from django.shortcuts import render, redirect
-import calendar
-from datetime import datetime, timedelta, timezone
-from calendar import HTMLCalendar
-from django.http import HttpResponseRedirect
-from .models import User, Watchlist, Ratings, Recommendations
-from .forms import RatingForm
-from .forms import WatchlistForm
-import openai
-from django.contrib.auth import get_user_model
+from django.shortcuts import render, redirect   # render is to render the html file, redirect is to redirect to another page
+import calendar                        # to get the calendar
+from datetime import datetime, timedelta, timezone              # to get the current date and time
+from calendar import HTMLCalendar       # to get the calendar
+from django.http import HttpResponseRedirect    # to redirect to another page
+from .models import User, Watchlist, Ratings, Recommendations   # to get the models from the database
+from .forms import RatingForm       # to get the form from the forms.py file
+from .forms import WatchlistForm    # to get the form from the forms.py file
+import openai                     # to use the openai API
+from django.contrib.auth import get_user_model  # to get the user model
 
 
 # Create your views here.
@@ -20,34 +20,34 @@ from django.contrib.auth import get_user_model
 #     })
 
 def new_rating(request):
-    submitted = False
-    if request.method == 'POST':
-        form = RatingForm(request.POST)
-        if form.is_valid():
+    submitted = False   # Set the submitted variable to False
+    if request.method == 'POST':    # If the form is submitted
+        form = RatingForm(request.POST) # Get the form data
+        if form.is_valid():    # If the form is valid
             rating = form.save(commit=False)  # Don't save to database yet
             rating.save()  # Save the rating to generate a primary key
             # rating.user.add(request.user)  # Add the current user to the set of users associated with the rating
-            return HttpResponseRedirect('/newrating?submitted=True')
+            return HttpResponseRedirect('/newrating?submitted=True')    # Redirect to the newrating page
     else:
-        form = RatingForm()
-        if 'submitted' in request.GET:
-            submitted = True
-    return render(request, 'newRating.html', {'form': form, 'submitted': submitted})
+        form = RatingForm() # Create a new form
+        if 'submitted' in request.GET:  # If the form is submitted
+            submitted = True    # Set the submitted variable to True
+    return render(request, 'newRating.html', {'form': form, 'submitted': submitted})    # Render the newRating page with the form and submitted variables
 
-def watchlist_entry(request):
-    submitted = False
+def watchlist_entry(request):   # Define the watchlist_entry function
+    submitted = False   # Set the submitted variable to False
     if request.method == 'POST':  # the method is defined in the html file
-        form = WatchlistForm(request.POST)
-        if form.is_valid():
-            form.save()
-            return HttpResponseRedirect('/watchlist_entry?submitted=True')
+        form = WatchlistForm(request.POST)  # Get the form data
+        if form.is_valid(): # If the form is valid
+            form.save() # Save the form data
+            return HttpResponseRedirect('/watchlist_entry?submitted=True')  # Redirect to the watchlist_entry page
     else:
-        form = WatchlistForm()
-        if 'submitted' in request.GET:
-            submitted = True
+        form = WatchlistForm()  # Create a new form
+        if 'submitted' in request.GET:  # If the form is submitted
+            submitted = True    # Set the submitted variable to True
     return render(request, 'watchlist_entry.html', {
         'form': form, 'submitted': submitted
-    })
+    })  # Render the watchlist_entry page with the form and submitted variables
 
 # def watchlist_entry_2(request):
 #     # Assuming text_gpt is passed to the template context
@@ -69,10 +69,10 @@ def watchlist_entry(request):
 
 
 
-def recommendations(request):
-    reco_list = Recommendations.objects.all()
-    return render(request, 'recommendations.html', {
-        'reco_list': reco_list,})
+def recommendations(request):   # Define the recommendations function
+    reco_list = Recommendations.objects.all()   # Get all the recommendations from the database
+    return render(request, 'recommendations.html', {    # Render the recommendations page
+        'reco_list': reco_list,})   # Pass the reco_list variable to the recommendations page
 
 def watchlist(request):
     watch_list = Watchlist.objects.all()
@@ -87,11 +87,11 @@ def my_ratings(request):
 
     
 
-def home(request, year=datetime.now().year, month=datetime.now().strftime('%B')):
+def home(request, year=datetime.now().year, month=datetime.now().strftime('%B')):   # Define the home function
     name=''
-    month = month.capitalize()
-    if request.user.is_authenticated:
-        name = request.user.username.capitalize()
+    month = month.capitalize()  # Capitalize the month
+    if request.user.is_authenticated:   # If the user is authenticated
+        name = request.user.username.capitalize()       # Get the username and capitalize it
 
     # convert month from string to integer
 
@@ -127,14 +127,14 @@ def home(request, year=datetime.now().year, month=datetime.now().strftime('%B'))
         'year': year,
     })
 
-def recobot(request):
-    rating_list = Ratings.objects.all()
-    list_movies_user = []
-    list_user_rating = []
-    for rating in rating_list:
-        list_movies_user.append(rating.movie)
-        list_user_rating.append(rating.rating)
-    text_gpt = recomendation(list_movies_user, list_user_rating)
+def recobot(request):   # Define the recobot function
+    rating_list = Ratings.objects.all()  # Get all the ratings from the database
+    list_movies_user = []   # Create an empty list to store the movies
+    list_user_rating = []   # Create an empty list to store the ratings
+    for rating in rating_list:  # For each rating in the rating list
+        list_movies_user.append(rating.movie)   # Append the movie to the list_movies_user list
+        list_user_rating.append(rating.rating)  # Append the rating to the list_user_rating list
+    text_gpt = recomendation(list_movies_user, list_user_rating)    # Get the recommendation from the recomendation function
     #text_gpt = 'some text'
     
     return render(request, 'recoBot.html', {
@@ -143,7 +143,7 @@ def recobot(request):
 
 # USING AI TO GET RESPONSE
 def get_chatgpt_response(user_input,reco_num_gpt, completions:int):
-    openai.api_key = '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 ' #'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'
+    openai.api_key = '' # API key from openai
     response = openai.Completion.create(
         engine="gpt-3.5-turbo-instruct",    # choosing model of openai's AI
         prompt=user_input,                  # choosing what to use for prompting
@@ -157,7 +157,7 @@ def get_chatgpt_response(user_input,reco_num_gpt, completions:int):
     choices = []
     for i in range(completions):
         choices.append(response.choices[i].text.strip())
-    return choices
+    return choices[0]
 
 def select_movies_liked(list_movies_user,list_user_rating,movies_num):
      indices_of_5 = [i for i, x in enumerate(list_user_rating) if x == 5] # considerinf that list_user_rating are integer
@@ -182,7 +182,7 @@ def recomendation(list_movies_user, list_user_rating):
     already_recommended_movies = get_already_recommended_movies()
     
     # Exclude already recommended movies from the input to ChatGPT
-    input_movies = [movie for movie in list_movies_liked if movie not in already_recommended_movies]
+    # input_movies = [movie for movie in list_movies_liked if movie not in already_recommended_movies]
     
     try:
         # Construct the input text for GPT following the specified structure
@@ -192,22 +192,23 @@ def recomendation(list_movies_user, list_user_rating):
         response = get_chatgpt_response(input_text, reco_num_gpt, 1)
         
         # Extracting movie name and recommendation from the response
-        for i in range(len(response)):
-            recommendation_text = response[i]
+        # for i in range(len(response)):
+        # recommendation_text = response[0] #     
             # Checking if the recommendation text contains a "-"
-            if "-" in recommendation_text:
-                # Splitting the recommendation text into movie and recommendation
-                movie_name, reco = recommendation_text.split(' - ')
-                
-                # Creating a new Recommendations instance and saving it
-                recommendation_instance = Recommendations.objects.create(movie=movie_name, reco=reco)
-                recommendation_instance.save()
-                
-                # Returning the recommendation text (if needed)
-                return recommendation_text
-            else:
-                # If "-" is not found, make another generation automatically
-                return recomendation(list_movies_user, list_user_rating)
+            
+        if "-" in response:
+            # Splitting the recommendation text into movie and recommendation
+            movie_name, reco = response.split(' - ')
+            
+            # Creating a new Recommendations instance and saving it
+            recommendation_instance = Recommendations.objects.create(movie=movie_name, reco=reco)
+            recommendation_instance.save()
+            
+            # Returning the recommendation text (if needed)
+            return response
+        else:
+            # If "-" is not found, make another generation automatically
+            return recomendation(list_movies_user, list_user_rating)
     except Exception as e:
         text_gpt = 'Failed to communicate with Chat GPT: \n{}'.format(str(e))
         return text_gpt

@@ -1,0 +1,24 @@
+{% extends 'base.html' %}           <!-- loading our base file -->
+
+
+{% block content %}                 <!-- open block -->
+
+    <center>
+    <br><br>
+    <h1>Hi {{name}}! <br> Check out upcoming events in {{month}} {{year}}</h1>
+    <br><br>
+    {{time}}
+    <br><br>
+    {{cal|safe}}    <!-- safe is used to render html content -->
+
+    <br><br><br><br>
+    </center>
+
+    <Script>
+        <!-- This code snippet reloads the current page. -->
+        // window.location.reload();
+    </Script>
+</body>
+</html>
+
+{% endblock %}              <!-- close block -->
